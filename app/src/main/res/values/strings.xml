@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bus Trajectory</string>
+    <string name="fetching_location">Fetching My Location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="settings">Get Location</string>
+</resources>
