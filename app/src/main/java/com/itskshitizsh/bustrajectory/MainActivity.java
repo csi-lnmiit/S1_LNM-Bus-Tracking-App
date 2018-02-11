@@ -22,7 +22,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    private static final int MY_PERMISSION_REQUEST_FINE_LOCATION = 101;
+    private static final int MY_PERMISSION_REQUEST_FINE_LOCATION = 101; // Request Code which will be passed to onRequestPermissionResult
     private static final int MY_PERMISSION_REQUEST_COARSE_LOCATION = 102;
     TextView latitudeText;
     TextView longitudeText;
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(10 * 1000);
-        locationRequest.setFastestInterval(15 * 1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); //Looking to the national provider every 10 seconds.
+        locationRequest.setFastestInterval(5 * 1000); // See if the location available so we're gonna set up fastest interval
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set priority to which provider we use.
 
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
                 } else {
                     permissionIsGranted = true;
+                    //Toast.makeText(getApplicationContext(), "Location permission already granted! ", Toast.LENGTH_SHORT).show();
                 }
-
+                Toast.makeText(getApplicationContext(), "Location permission already granted! ", Toast.LENGTH_SHORT).show();
                 latitudeText.setText("Latitude");
                 longitudeText.setText("Longitude");
             }
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             return;
         }
+        // Location Request will setup here.
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onLocationChanged(Location location) {
         myLatitude = location.getLatitude();
         myLongitude = location.getLongitude();
+        Toast.makeText(getApplicationContext(),"Values Updated !",Toast.LENGTH_SHORT);
         latitudeText.setText("Latitude : " + String.valueOf(myLatitude));
         longitudeText.setText("Longitude : " + String.valueOf(myLongitude));
     }
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onPause() {
         super.onPause();
-        if (permissionIsGranted)
+        if (permissionIsGranted) // Suspend services on pause
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
     }
 
@@ -155,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     //permission denied
                     permissionIsGranted = false;
                     Toast.makeText(getApplicationContext(), "This app requires location permission to be granted", Toast.LENGTH_SHORT).show();
-                    latitudeText.setText("Latitude : permission not granted");
-                    longitudeText.setText("Longitude : permission not granted");
+                    latitudeText.setText("Latitude : Permission Not Granted");
+                    longitudeText.setText("Longitude : Permission Not Granted");
                 }
                 break;
             case MY_PERMISSION_REQUEST_COARSE_LOCATION:
