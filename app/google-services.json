@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "645298134938",
+    "firebase_url": "https://bustrajectory-a0a9b.firebaseio.com",
+    "project_id": "bustrajectory-a0a9b",
+    "storage_bucket": "bustrajectory-a0a9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645298134938:android:62fd7e3d9cbc9084",
+        "android_client_info": {
+          "package_name": "com.itskshitizsh.bustrajectory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645298134938-rjq9u3m4b1psj6ljqr9cr23k9ba5a5i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itskshitizsh.bustrajectory",
+            "certificate_hash": "ba3a955f1b5ac602e56b34a5b16ea5183c08146a"
+          }
+        },
+        {
+          "client_id": "645298134938-8c8peit3s0fc2hj7oc573bgaggivh86a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJYt98wN-qFIymM3yg1fdfgXEhdZOSvyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645298134938-8c8peit3s0fc2hj7oc573bgaggivh86a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

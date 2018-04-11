@@ -3,12 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/bt_logo"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.itskshitizsh.bustrajectory.SplashActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="bottom|center_horizontal|center_vertical"
+        android:padding="16dp"
         android:text="@string/app_name"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#FFFFFF"
         android:textSize="48sp" />
 </LinearLayout>
