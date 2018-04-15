@@ -33,4 +33,6 @@
     <string name="bus">Bus</string>
     <string name="profile">User Profile</string>
     <string name="successfullyUploaded">Coordinates Uploaded to Server</string>
+    <string name="share">Share Location!</string>
+    <string name="dont_share">Stop Sharing!</string>
 </resources>

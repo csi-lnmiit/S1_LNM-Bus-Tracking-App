@@ -62,6 +62,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     FirebaseDatabase database;
     DatabaseReference myRef;
 
+    boolean isSharing;
     Calendar calendar;
     SimpleDateFormat simpleDateFormat;
 
@@ -73,7 +74,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Drivers");
+        myRef = database.getReference("Driver");
 
         coordinate = new ArrayList<>();
 
@@ -180,7 +181,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String temp = simpleDateFormat.format(calendar.getTime());
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-        if (firebaseUser != null)      // Whenever a user is Logged In
+        if (firebaseUser != null && isSharing)      // Whenever a user is Logged In
         {
             //getting a unique id using push().getKey() method
             //it will create a unique id and we will use it as the Primary Key for our Storage
@@ -264,6 +265,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.menuProfile:
                 startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
                 break;
+            case R.id.menuAccess:
+                if (item.getTitle().equals(getString(R.string.share))) {
+                    isSharing = true;
+                    item.setTitle(getString(R.string.dont_share));
+                } else {
+                    isSharing = false;
+                    item.setTitle(getString(R.string.share));
+                }
         }
         return true;
     }
