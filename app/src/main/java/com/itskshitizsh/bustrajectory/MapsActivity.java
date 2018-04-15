@@ -34,6 +34,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -49,6 +58,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean permissionIsGranted = false;
 
     FirebaseAuth mAuth;
+    List<User> coordinate;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
+    Calendar calendar;
+    SimpleDateFormat simpleDateFormat;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +72,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Drivers");
+
+        coordinate = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,7 +124,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void requestLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -146,6 +165,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(CameraUpdateFactory.newLatLng(next));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
 
+        uploadCoordinates2FireBase();   //this method is actually performing the write operation
+    }
+
+    /*
+     * This method is saving a new set of Coordinates to the
+     * Firebase Real Time Database
+     * */
+    private void uploadCoordinates2FireBase() {
+
+        String coordin = myLatitude + " , " + myLongitude;
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);     // Date and Time
+        String temp = simpleDateFormat.format(calendar.getTime());
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        if (firebaseUser != null)      // Whenever a user is Logged In
+        {
+            //getting a unique id using push().getKey() method
+            //it will create a unique id and we will use it as the Primary Key for our Storage
+            String id = myRef.push().getKey();
+            // Creating an user object
+            User user = new User(id, coordin, temp);
+            // saving the user
+            myRef.child(id).setValue(user);
+            // displaying a success toast
+            Toast.makeText(this, getString(R.string.successfullyUploaded) + myLatitude + "° N, " + myLongitude + "° E", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
