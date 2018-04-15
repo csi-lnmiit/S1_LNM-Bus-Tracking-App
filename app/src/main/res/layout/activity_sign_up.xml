@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/logo" />
+            android:background="@drawable/logo"
+            android:contentDescription="@string/app_name" />
 
     </RelativeLayout>
 
@@ -32,60 +33,60 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="@dimen/ll_padding"
+            android:paddingRight="@dimen/ll_padding">
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:hint="Name"
                 android:inputType="textPersonName"
-                android:paddingBottom="15dp"
+                android:paddingBottom="16dp"
                 android:textColorHint="@color/colorAccent" />
-
+                -->
 
             <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:hint="Email"
+                android:layout_marginBottom="@dimen/std0.5_dp"
+                android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
-                android:paddingBottom="15dp"
+                android:paddingBottom="@dimen/std_dp"
                 android:textColorHint="@color/colorAccent" />
 
             <EditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:hint="Password"
+                android:layout_marginBottom="@dimen/std0.5_dp"
+                android:hint="@string/password_hint"
                 android:inputType="textPassword"
-                android:paddingBottom="15dp"
+                android:paddingBottom="@dimen/std_dp"
                 android:textColorHint="@color/colorAccent" />
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/editTextPhoneNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:hint="Contact Number"
                 android:inputType="phone"
-                android:paddingBottom="15dp"
+                android:paddingBottom="16dp"
                 android:textColorHint="@color/colorAccent" />
-
+                -->
 
             <Button
                 android:id="@+id/buttonSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="7dp"
+                android:layout_margin="@dimen/std0.5_dp"
                 android:background="@drawable/rounded_button_transparent"
-                android:padding="16dp"
-                android:text="Sign Up"
+                android:padding="@dimen/std_dp"
+                android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
 
@@ -93,8 +94,8 @@
                 android:id="@+id/textViewLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Already have an account? Login"
+                android:padding="@dimen/std_dp"
+                android:text="@string/signin_need"
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorAccent" />

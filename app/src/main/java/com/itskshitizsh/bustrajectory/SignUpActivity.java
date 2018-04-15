@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     ProgressBar progressBar;
-    EditText editTextName, editTextEmail, editTextPassword, editTextContact;
+    EditText editTextEmail, editTextPassword;
 
     private FirebaseAuth mAuth;
 
@@ -73,14 +73,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    finish();   // After Sign Up Moving to Sign In Activity.
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                    // startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
+                    finish();   // After Sign Up Moving to Profile Activity.
+                    //startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
                 } else {
 
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                         Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
-
+                        startActivity(new Intent(SignUpActivity.this, ProfileActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

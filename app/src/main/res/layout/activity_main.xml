@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/std_dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="278dp"
+            android:layout_height="@dimen/rl_height"
             android:layout_weight="1">
 
             <ImageView
@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/logo" />
 
         </RelativeLayout>
@@ -36,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="@dimen/std_dp">
 
 
                 <EditText
@@ -44,33 +45,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient"
-                    android:fontFamily="sans-serif"
-                    android:hint="email"
+                    android:hint="@string/email_hint"
                     android:inputType="textEmailAddress"
-                    android:padding="8dp"
-                    android:textColorHint="@color/colorAccent" />
+                    android:padding="@dimen/std_dp"
+                    android:textColorHint="@color/colorAccent"
+                    android:textSize="@dimen/std_sp" />
 
                 <EditText
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/std0.5_dp"
                     android:background="@drawable/gradient"
-                    android:fontFamily="sans-serif"
-                    android:hint="password"
+                    android:hint="@string/password_hint"
                     android:inputType="textPassword"
-                    android:padding="8dp"
-                    android:textColorHint="@color/colorAccent" />
+                    android:padding="@dimen/std_dp"
+                    android:textColorHint="@color/colorAccent"
+                    android:textSize="@dimen/std_sp" />
 
                 <Button
                     android:id="@+id/buttonLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="7dp"
+                    android:layout_margin="@dimen/std0.5_dp"
                     android:background="@drawable/rounded_button_transparent"
-                    android:padding="16dp"
-                    android:text="Login"
+                    android:padding="@dimen/std_dp"
+                    android:text="@string/login_hint"
                     android:textAllCaps="false"
                     android:textColor="@color/colorAccent" />
 
@@ -78,8 +79,8 @@
                     android:id="@+id/textViewSignup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Don't have account? Sign Up"
+                    android:padding="@dimen/std0.5_dp"
+                    android:text="@string/signup_need"
                     android:textAlignment="center"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorAccent" />

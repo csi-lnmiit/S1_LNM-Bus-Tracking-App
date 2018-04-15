@@ -2,13 +2,21 @@ package com.itskshitizsh.bustrajectory;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,9 +29,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -38,11 +48,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Double myLongitude;
     private boolean permissionIsGranted = false;
 
+    FirebaseAuth mAuth;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -57,9 +74,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setInterval(10 * 1000); //Looking to the national provider every 10 seconds.
         locationRequest.setFastestInterval(5 * 1000); // See if the location available so we're gonna set up fastest interval
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set priority to which provider we use.
-        myLatitude = 0.0;
-        myLongitude = 0.0;
-
+        myLatitude = 26.9363;   // Initializing with latitute and longitude of LNMIIT, Jaipur.
+        myLongitude = 75.9235;  // 26.9363° N, 75.9235° E
     }
 
 
@@ -75,8 +91,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(myLatitude, myLongitude);
         marker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker is your location."));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
@@ -122,11 +136,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         myLatitude = location.getLatitude();
         myLongitude = location.getLongitude();
-        Toast.makeText(getApplicationContext(), "Values Updated !", Toast.LENGTH_SHORT);
+
+        Toast.makeText(getApplicationContext(), getString(R.string.values_updated), Toast.LENGTH_SHORT).show();
         marker.remove();
         LatLng next = new LatLng(myLatitude, myLongitude);
-        marker = mMap.addMarker(new MarkerOptions().position(next).title("Marker is your location."));
+        MarkerOptions mk = new MarkerOptions().position(next).title(getString(R.string.myLoc));
+        mk.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon128));
+        marker = mMap.addMarker(mk);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(next));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
 
     }
 
@@ -171,12 +189,60 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //permission denied
                     permissionIsGranted = false;
                     Toast.makeText(getApplicationContext(), "This app requires location permission to be granted", Toast.LENGTH_SHORT).show();
-                    //TODO : Make Alert "Permission Not Granted"
+                    showSettingsAlert();
                 }
                 break;
             case MY_PERMISSION_REQUEST_COARSE_LOCATION:
                 // do something for coarse location
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menuObj) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.goto_profile, menuObj);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menuLogout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.menuProfile:
+                startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    private void showSettingsAlert() {
+        AlertDialog.Builder al = new AlertDialog.Builder(MapsActivity.this);
+        al.setMessage(getString(R.string.permission_message)).setCancelable(false).setPositiveButton(getString(R.string.settingbtn), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Opening Location Settings
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+
+                Intent switchTo = new Intent(MapsActivity.this, ProfileActivity.class);
+                startActivity(switchTo);
+            }
+        });
+        AlertDialog alertDialog = al.create();
+        alertDialog.setTitle(getString(R.string.permission_title));
+        alertDialog.show();
+
     }
 }

@@ -42,25 +42,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String password = editTextPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
-            editTextEmail.setError("Email is required");
+            editTextEmail.setError(getString(R.string.require_email));
             editTextEmail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Please enter a valid email");
+            editTextEmail.setError(getString(R.string.valid_email));
             editTextEmail.requestFocus();
             return;
         }
 
         if (password.isEmpty()) {
-            editTextPassword.setError("Password is required");
+            editTextPassword.setError(getString(R.string.require_password));
             editTextPassword.requestFocus();
             return;
         }
 
         if (password.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.setError(getString(R.string.min_len_text));
             editTextPassword.requestFocus();
             return;
         }
@@ -86,9 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-
+        //  Already Logged In so Starting MapsActivity Directly.
         if (mAuth.getCurrentUser() != null) {
-            finish();
+            finish();   // Because I don't want user to come back to logIn Activity by back button.
             startActivity(new Intent(this, MapsActivity.class));
         }
     }
