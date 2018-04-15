@@ -176,7 +176,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         String coordin = myLatitude + " , " + myLongitude;
         calendar = Calendar.getInstance();
-        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);     // Date and Time
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);     // Date and Time in 24hrs
         String temp = simpleDateFormat.format(calendar.getTime());
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
